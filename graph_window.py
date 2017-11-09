@@ -42,6 +42,22 @@ class GraphShow:
 			self.create_node(node)
 
 
+# class Matrice:
+
+# 	def __init__(self, size, init = -1):
+# 		self.init = init
+# 		self.size = size
+# 		self._matrice = [[init] * size] * size
+
+# 	def add(self, x):
+# 		self.size += 1
+# 		for i, line in enumerate(self.matrice):
+# 			self.matrice[i] = line + [self.init]
+# 		self.matrice.append([self.init] * self.size)
+
+# 	def decalLeft(self):
+
+
 class NodePosition:
 
 	def __init__(self, graph, width, height):
@@ -52,7 +68,9 @@ class NodePosition:
 		self.links = []
 		self.initNodes()
 		self.initLinks()
-		self.posNodesRand()
+		# self.posNodesRand()
+		size = self.posNodesI()
+		self.posGrid(size)
 
 	def initNodes(self):
 		for i, node in enumerate(self.graph["idict"]):
@@ -91,8 +109,74 @@ class NodePosition:
 			node["x"] = marge + x * w
 			node["y"] = marge + y * h
 
-	def posNodeI(self):
-		return
+	def posGrid(self, grid = 20, marge = 20):
+		w = int((self.width - marge * 2) / grid)
+		h = int((self.height - marge * 2) / grid)
+		for i, node in enumerate(self.nodes):
+			self.nodes[i]["x"] = marge + node["x"] * w
+			self.nodes[i]["y"] = marge + node["y"] * h
+
+	def posNodesI(self):
+		maxX = 0
+		maxY = 0
+		y = {}
+		history = {}
+		for i in range(2):
+			for link in self.links:
+				if link[i] not in history:
+					a = self.nodes[link[i]]
+					beforeA = self.linkDeep(link[i], 0) - 1
+					a["x"] = beforeA
+					X = str(beforeA)
+					if X in y:
+						y[X] += 1
+					else:
+						y[X] = 0
+					a["y"] = y[X]
+					history[link[i]] = True
+					if beforeA > maxX:
+						maxX = beforeA
+					if y[X] > maxY:
+						maxY = y[X]
+		return maxX if maxX > maxY else maxY
+
+
+	def linkDeep(self, node, direction):
+		ret = 1
+		max = 0
+		for link in self.links:
+			if link[direction] == node:
+				tmp = self.linkDeep(link[1 - direction], direction)
+				if tmp > max:
+					max = tmp
+		return ret + max
+
+	# def posNodesI(self, matriceLink):
+	# 	size = len(matriceLink)
+	# 	liste = []
+	# 	# print(matricePos)
+	# 	for i in range(size):
+	# 		linkBefore = []
+	# 		linkAfter = []
+	# 		for j in range(size):
+	# 			if matriceLink[j][i] == 1:
+	# 				linkAfter.append(j)
+	# 			if matriceLink[i][j] == 1:
+	# 				linkBefore.append(j)
+	# 		liste.append({"before": linkBefore, "after": linkAfter})
+	# 		print(self.graph["idict"][i], "before", linkBefore, "after", linkAfter)
+	# 	print(liste)
+	# 	print("travel after", self.travel(liste, 0, "after"))
+	# 	print("travel before", self.travel(liste, 5, "before"))
+	# 	return 
+
+	# def travel(self, list, i, name):
+	# 	# print("travel", i)
+	# 	ret = [i]
+	# 	for node in list[i][name]:
+	# 		ret.append(self.travel(list, node, name))
+	# 	return ret
+
 
 	def getNodes(self):
 		return self.nodes

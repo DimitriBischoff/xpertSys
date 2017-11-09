@@ -13,12 +13,6 @@ def stringMatrix(matrix, legende = [], sepChar = ", ", sepLine = "\n"):
 		tmpMatrix.append(sepChar.join(tmpLine))
 	return sepLine.join(tmpMatrix)
 
-# def getChar(s, i):
-# 	print("getChar", s, i)
-# 	if i >= 0 and i < len(s):
-# 		return s[i]
-# 	return ""
-
 class Graph:
 
 	def __init__(self, code):
@@ -27,10 +21,7 @@ class Graph:
 		self.liste = []
 		self.matrice = []
 		tmpCode = self.renameOp(code)
-		# print(tmpCode)
 		self.travelCode(tmpCode)
-		# self.creaGraphStart(tmpCode)
-		# self.creaGraphEnd(tmpCode)
 
 	def __str__(self):
 		print(self.dictionnaire)
@@ -119,65 +110,7 @@ class Graph:
 		if "!" not in op and a != "":
 			self.addLink(a, op)
 			del line[i-1]
-		# print("line", a, op, b, line)
 		return line
-
-	# def creaGraphStart(self, line):
-	# 	print(line)
-	# 	prio = ["+", "|", "^", "!", "=>"]
-
-	# 	oldOp = ""
-	# 	for i, char in enumerate(line):
-	# 		if isinstance(char, list):
-	# 			line[i] = self.creaGraphStart(line[i])
-	# 	for op in prio:
-	# 		i = 0
-	# 		while i < len(line):
-	# 			char = line[i]
-	# 			# print("char", char, "oldOp", oldOp)
-	# 			if "=>" in char:
-	# 				if op in char:
-	# 					if len(oldOp):
-	# 						self.creaGraphNode([oldOp, char])
-	# 					else:
-	# 						self.creaGraphNode([getChar(line, i - 1), char])
-	# 				break
-	# 			elif op in char:
-	# 				self.creaGraphNode([getChar(line, i - 1), char, getChar(line, i + 1)])
-	# 				oldOp = char
-	# 			i += 1
-	# 	return oldOp
-
-	# def creaGraphEnd(self, line):
-	# 	# print(line)
-	# 	prio = ["+", "|", "^"]
-	# 	oldOp = ""
-	# 	index = 0
-	# 	while index < len(line) and "=>" not in line[index]:
-	# 		index += 1
-	# 	i = index + 1
-	# 	while i < len(line):
-	# 		char = line[i]
-	# 		for op in prio:
-	# 			if "!" in getChar(line, i - 1):
-	# 				self.creaGraphNode([getChar(line, i - 1), char])
-	# 				break
-	# 			elif op in char:
-	# 				self.creaGraphNode([char, getChar(line, i - 1)])
-	# 				self.creaGraphNode([char, getChar(line, i + 1)])
-	# 				# print("oldOp", oldOp)
-	# 				oldOp = char
-	# 				break
-	# 			else:
-	# 				self.creaGraphNode([getChar(line, index), char])
-	# 				break
-	# 		i += 1
-	
-	# def creaGraphNode(self, tab):
-	# 	print("creaNode", tab)
-	# 	self.addLink(tab[0], tab[1])
-	# 	if len(tab) > 2:
-	# 		self.addLink(tab[2], tab[1])
 
 	def exist(self, node):
 		return node in self.dictionnaire
@@ -228,15 +161,6 @@ class Graph:
 		elif self.addNode(node1) and self.addNode(node2):
 			self.addLink(node1, node2)
 
-	def travelGraph(self, index):
-		if self.liste[index] == 1:
-			return 1
-		for j, link in enumerate(self.matrice[index]):
-			if link == 1:
-				if self.travelGraph(j) == 1:
-					return 1
-		return 0
-
 	def getGraph(self):
 		return {
 			"dict"	: self.dictionnaire,
@@ -249,16 +173,3 @@ class Graph:
 		for char in init:
 			self.setValue(char, 1)
 
-	def query(self, query):
-		resultat = [0] * len(query)
-
-		for k, q in enumerate(query):
-			j = self.getIndex(q)
-			i = 0
-			while i < len(self.matrice):
-				if self.getValue(q) != 0:
-					resultat[k] = self.getValue(q)
-				elif self.matrice[i][j] == 1 and "=>" in self.getNode(i):
-					resultat[k] = self.travelGraph(i)
-				i += 1
-		return resultat
