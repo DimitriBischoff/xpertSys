@@ -3,6 +3,7 @@
 
 from graph import *
 from graph_window import *
+from browse_graph import *
 
 code = [
 	# ["!", "B", "+", ["D", "|", "A"], "=>", "C", "+", "Z"],
@@ -25,17 +26,22 @@ code = [
 	["O", "+", "P", "=>", "L", "+", "N" ],
 	["N", "=>", "M", ],
 ]
-init = "A"
-query = "E"
+init = "DEIJP"
+query = "AFKP"
 
 def main():
-	# print([0] * 2)
-	graph = Graph(code)
-	# print(graph)
-	graph.init(init)
-	window = GraphShow(graph.getGraph())
-	print(graph)
-	window.loop()
-	# print(graph.query(query))
+    results = []
+    endstr = ""
+    graph = Graph(code)
+    graph.init(init)
+    window = GraphShow(graph.getGraph())
+    #window.loop()
+    results = browse(graph.matrice, graph.liste, graph.invDictionnaire)
+    print("\nRESULTS:")
+    for x in query:
+        for y, z in enumerate(graph.invDictionnaire):
+            if x == z:
+                endstr += "result of {} is {}\n".format(x, results[y])
+    print(endstr)
 
 main()
