@@ -30,7 +30,7 @@ class Graph:
 		return stringMatrix(self.matrice, self.invDictionnaire, "  ")
 
 	def renameOp(self, code, nb = []):
-		prio = "!+|^"
+		prio = ["!", "+", "|", "^", "=>"]
 		if len(nb) < len(prio):
 			nb = [1] * len(prio)
 
@@ -61,9 +61,11 @@ class Graph:
 	def travelCode(self, code):
 		for line in code:
 			arrow = self.indexArrow(line)
-			start = line[:arrow]
+			start = line[:arrow + 1]
 			end = line[arrow + 1:]
+			print(start, end)
 			op = self.travelStart(start)
+			print("op", op, start)
 			self.travelEnd(end, op)
 
 	def travelEnd(self, line, opOld):
@@ -88,15 +90,16 @@ class Graph:
 
 	def travelStart(self, line):
 		opMax = ""
-		opPrio = "!+|^"
+		opPrio = ["!", "+", "|", "^", "=>"]
 		if len(line) == 1:
 			opMax = self.getChar(line, 0)
 		for op in opPrio:
 			for i, char in enumerate(line):
 				if isinstance(char, str) and op in char:
+					print(op, op in char)
 					line = self.creaNode(line, i)
-					if opMax == "" and op != "!":
-						opMax = char
+					opMax = char
+					print("opMax", opMax)
 
 		return opMax
 

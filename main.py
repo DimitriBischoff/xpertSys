@@ -39,3 +39,6 @@ def main():
 	# print(graph.query(query))
 
 main()
+
+def implication(p, q):
+	return False if p and not q else True
