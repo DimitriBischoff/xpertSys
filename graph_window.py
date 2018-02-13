@@ -7,6 +7,8 @@ import random
 class GraphShow:
 
 	def __init__(self, graph, width = 800, height = 600):
+		if self.isLoop(graph.matrix[:]):
+			return None
 		self.window = Tk()
 		self.graph = NodePosition(graph, width, height)
 		self.width = width
@@ -40,6 +42,9 @@ class GraphShow:
 		nodes = self.graph.getNodes()
 		for node in nodes:
 			self.create_node(node)
+
+	def isLoop(self, matrix):
+		return False
 
 
 # class Matrice:

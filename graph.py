@@ -63,9 +63,7 @@ class Graph:
 			arrow = self.indexArrow(line)
 			start = line[:arrow + 1]
 			end = line[arrow + 1:]
-			print(start, end)
 			op = self.travelStart(start)
-			print("op", op, start)
 			self.travelEnd(end, op)
 
 	def travelEnd(self, line, opOld):
@@ -96,11 +94,8 @@ class Graph:
 		for op in opPrio:
 			for i, char in enumerate(line):
 				if isinstance(char, str) and op in char:
-					print(op, op in char)
 					line = self.creaNode(line, i)
 					opMax = char
-					print("opMax", opMax)
-
 		return opMax
 
 	def creaNode(self, line, i):
@@ -157,7 +152,7 @@ class Graph:
 
 	def addLink(self, node1, node2):
 		if self.exist(node1) and self.exist(node2):
-			print("link", node1, node2)
+			# print("link", node1, node2)
 			index1 = self.getIndex(node1)
 			index2 = self.getIndex(node2)
 			self.matrice[index2][index1] = 1
