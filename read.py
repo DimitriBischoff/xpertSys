@@ -6,11 +6,21 @@
 #    By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/12 15:54:54 by rmicolon          #+#    #+#              #
-#    Updated: 2017/10/13 20:14:08 by rmicolon         ###   ########.fr        #
+#    Updated: 2018/02/08 22:57:46 by rmicolon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import sys
+
+#TODO:
+# errors : 
+#  - parenthesis correctness
+#  - plusieurs signes '='
+#  - check espaces
+#  - check ordre parametres ?
+#  - check symbol correctness ('avec string harcodee degueu')
+#  - check symbol on right side 
+
 
 class ruleside:
     def __init__(self, string):
@@ -51,7 +61,7 @@ class rule:
         elif self.sign == 0:
             if self.right.rule.count('(') or self.right.rule.count(')'):
                 self.perror('target in rule : "' + self.strule + '" contains parenthesis')
-            elif self.right.rule.count('|'):
+            elif self.right.rule .count('|'):
                 self.perror('target in rule : "' + self.strule + '" contains OR sign')
             elif self.right.rule.count('^'):
                 self.perror('target in rule : "' + self.strule + '" contains XOR sign')
@@ -146,22 +156,38 @@ class rule:
                 del tab[0][i+1]
         return (tab[0][0])
 
+OK = [' ', 'A', 'B', 'C', 'E', 'F', 'G', 'H', '+', '|', '(', ')', '=>']
+
+def error(str):
+    print('Error: {}'.format(str))
+    exit(1)
+
+
+def formatRules(rules):
+    for rule in rules
+    lst = [j for i in rules for j in i if j in OK]
+    print(lst)
+    return 0
+
+
 def clean_input(input):
-    lst = input.splitlines()
-    for i in range(len(lst)):
-        lst[i] = lst[i].split('#', 1)[0]
-    lst = list(filter(None, lst))
+    queries = None
+    facts = None
+    lst = list(filter(None, map(lambda x: x.split('#', 1)[0].strip(), input.splitlines())))
     rules = list(lst)
     for j in range(len(lst)):
         if lst[j][0] == '?':
+            if queries is not None:
+                error('Multiple queries statement')
             queries = lst[j][1:]
             rules.remove(lst[j])
         elif lst[j][0] == '=':
+            if facts is not None:
+                error('Multiple facts statement')
             facts = lst[j][1:]
             rules.remove(lst[j])
-    ru = rule(rules[1])
-    print('facts = ', facts)
-    ru.resolve(ru.left, facts)
+    return rules, facts, queries
+
 
 def read_input(name):
     fo = open(name, 'r')
@@ -169,7 +195,10 @@ def read_input(name):
     fo.close()
     return(input)
 
+
 if __name__ == '__main__':
     for arg in sys.argv[1:]:
         input = read_input(arg)
-        clean_input(input)
+        rules, facts, queries = clean_input(input)
+        rules = formatRules(rules)
+

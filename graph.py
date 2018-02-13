@@ -1,6 +1,8 @@
 #!/usr/bin/python3.4
 # -*- coding: utf-8 -*-
 
+from lib import *
+
 def stringMatrix(matrix, legende = [], sepChar = ", ", sepLine = "\n"):
 	tmpLegende = []
 	for char in legende:
@@ -22,6 +24,7 @@ class Graph:
 		self.matrice = []
 		tmpCode = self.renameOp(code)
 		self.travelCode(tmpCode)
+		self.loop = Graph.isLoop(copieMatrice(self.matrice))
 
 	def __str__(self):
 		print(self.dictionnaire)
@@ -170,4 +173,65 @@ class Graph:
 	def init(self, init):
 		for char in init:
 			self.setValue(char, 1)
+
+	def isLoop(m):
+		j = 0
+		while j < len(m):
+			if Graph.loopLine(m, j):
+				return True
+			j += 1
+		return False
+
+	def loopLine(m, j):
+		i = 0
+		while i < len(m):
+			if m[j][i] == -1:
+				return True
+			if m[j][i] == 1:
+				m[j][i] = -1
+				if Graph.loopLine(m, i):
+					return True
+				else:
+					m[j][i] = 1
+			i += 1
+		return False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
