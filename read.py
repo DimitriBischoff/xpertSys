@@ -156,21 +156,38 @@ class rule:
                 del tab[0][i+1]
         return (tab[0][0])
 
-OK = [' ', 'A', 'B', 'C', 'E', 'F', 'G', 'H', '+', '|', '(', ')', '=>']
+OK = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ' + '!+-|^' + '=()'
 
 def error(str):
     print('Error: {}'.format(str))
     exit(1)
 
 
-def formatRules(rules):
-    for rule in rules
-    lst = [j for i in rules for j in i if j in OK]
-    print(lst)
-    return 0
+def formatRule(rule, p):
+    lst = []
+    errule = list(rule)
+    while rule:
+        if rule[0] not in OK:
+            error('Wrong symbol {0} in rule "{1}"'.format(rule[0], errule))
+        elif rule[0] == '=':
+            if rule[1] == '>':
+                lst.append("".join(rule[0:2]))
+                del rule[0:2]
+            else:
+                error('Wrong symbol {0} in rule "{1}"'.format(rule[0:1], errule))
+        elif rule[0] == '(':
+            del rule[0]
+            lst.append(formatRule(rule, p+1))
+        elif rule[0] == ')':
+            del rule[0]
+            return (lst) if p > 0 else error('Parenthesis error in rule "{0}"'.format(errule))
+        else:
+            lst.append(rule[0])
+            del rule[0]
+    return lst 
 
 
-def clean_input(input):
+def cleanInput(input):
     queries = None
     facts = None
     lst = list(filter(None, map(lambda x: x.split('#', 1)[0].strip(), input.splitlines())))
@@ -199,6 +216,7 @@ def read_input(name):
 if __name__ == '__main__':
     for arg in sys.argv[1:]:
         input = read_input(arg)
-        rules, facts, queries = clean_input(input)
-        rules = formatRules(rules)
+        rules, facts, queries = cleanInput(input)
+        rules = [ formatRule(list(rule), 0) for rule in rules ]
+        print(rules)
 
