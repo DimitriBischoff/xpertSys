@@ -67,7 +67,7 @@ def run_through(x, matrix, results, indexes, chkd):
         return results[x]
 
 def browse(matrix, inits, indexes):
-    print(inits)
+    # print(inits)
     results = inits
     chkd = []
     for x in range(len(matrix[0])):

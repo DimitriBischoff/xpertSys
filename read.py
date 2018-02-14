@@ -207,16 +207,18 @@ def cleanInput(input):
 
 
 def read_input(name):
-    fo = open(name, 'r')
-    input = fo.read()
-    fo.close()
+    with open(name, 'r') as fo:
+        input = fo.read()
     return(input)
 
+def read_run(path):
+    input = read_input(path)
+    rules, facts, queries = cleanInput(input)
+    rules = [ formatRule(list(rule), 0) for rule in rules ]
+    return rules, facts, queries
 
 if __name__ == '__main__':
     # for arg in sys.argv[1:]:
-    input = read_input("test")
-    rules, facts, queries = cleanInput(input)
-    rules = [ formatRule(list(rule), 0) for rule in rules ]
+    rules, facts, queries = read_run("test")
     print(rules, facts, queries)
 
