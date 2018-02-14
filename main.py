@@ -3,39 +3,54 @@
 
 from graph import *
 from graph_window import *
+from browse_graph import *
 
 code = [
-	# ["!", "B", "+", ["D", "|", "A"], "=>", "C", "+", "Z"],
-	# ["!", "A", "=>", "!", "B"],
-	# ["C", "=>" ,"E"],
-	# ["A" ,"+" ,"B" ,"+" ,"C" ,"=>" ,"D"],
-	# ["A" ,"|" ,"B" ,"=>" ,"C"],
-	# ["A" ,"+" ,"!", "B" ,"=>" ,"F"],
-	# ["C" ,"|" ,"!", "G" ,"=>" ,"H"],
-	# ["V" ,"^" ,"W" ,"=>" ,"X"],
-	# ["A" ,"+" ,"B" ,"=>" ,"Y" ,"+" ,"Z"],
-	# ["C" ,"|" ,"D" ,"=>" ,"X" ,"|" ,"V"],
-	# ["E" ,"+" ,"F" ,"=>" ,"!" ,"V"],
-	["B", "=>", "A"], 
-	["D", "+", "E", "=>", "B" ],
-	["G", "+", "H", "=>", "F" ],
-	["I", "+", "J", "=>", "G" ],
-	["G", "=>", "H", ],
-	["L", "+", "M", "=>", "K" ],
-	["O", "+", "P", "=>", "L", "+", "N" ],
-	["N", "=>", "M", ],
+	["A", "=>", "C"],
+	["C", "=>", "D"],
+	# ["D", "=>", "C"],
 ]
+# init = ["A", "B", "G"]
 init = "A"
-query = "E"
+query = "C"
 
 def main():
+	results = []
+	endstr = "" 
 	# print([0] * 2)
 	graph = Graph(code)
-	# print(graph)
-	graph.init(init)
-	window = GraphShow(graph.getGraph())
-	print(graph)
-	window.loop()
-	# print(graph.query(query))
+	print(graph, graph.loop)
+	if not graph.loop:
+		graph.init(init)
+		window = GraphShow(graph.getGraph())
+		#print(graph.matrice)
+		# results = browse(graph.matrice, graph.liste, graph.invDictionnaire)
+		# for x in query:
+		#	for y, z in enumerate(graph.invDictionnaire):
+		#		if z == x:
+		#		endstr += "result of {} is {}\n".format(x, results[y])
+		# print(endstr)
+		window.loop()
+		# print(graph.query(query))
 
 main()
+
+# m = [[0, 0, 0, 1], [1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0]]
+
+# def isLoop(m, l=0):
+# 	h = w = len(m)
+# 	i, j = 0, l
+# 	while j < h:
+# 		while i < w:
+# 			print(j, i, m[j][i])
+# 			if m[j][i] == -1:
+# 				return True
+# 			if m[j][i] == 1:
+# 				m[j][i] = -1
+# 				if isLoop(m, i):
+# 					return True
+# 			i += 1
+# 		j += 1
+# 	return False
+
+# print(isLoop(m))

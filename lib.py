@@ -58,3 +58,9 @@ def splitrules(str, rules, save = False):
 				i = j + length
 	tmp.append(str[i:])
 	return tmp
+
+def copieMatrice(m):
+	mTmp = []
+	for l in m:
+		mTmp.append(l[:])
+	return mTmp

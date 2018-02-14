@@ -1,6 +1,8 @@
 #!/usr/bin/python3.4
 # -*- coding: utf-8 -*-
 
+from lib import *
+
 def stringMatrix(matrix, legende = [], sepChar = ", ", sepLine = "\n"):
 	tmpLegende = []
 	for char in legende:
@@ -22,6 +24,7 @@ class Graph:
 		self.matrice = []
 		tmpCode = self.renameOp(code)
 		self.travelCode(tmpCode)
+		self.loop = Graph.isLoop(copieMatrice(self.matrice))
 
 	def __str__(self):
 		print(self.dictionnaire)
@@ -30,7 +33,7 @@ class Graph:
 		return stringMatrix(self.matrice, self.invDictionnaire, "  ")
 
 	def renameOp(self, code, nb = []):
-		prio = "!+|^"
+		prio = ["!", "+", "|", "^", "=>"]
 		if len(nb) < len(prio):
 			nb = [1] * len(prio)
 
@@ -61,7 +64,7 @@ class Graph:
 	def travelCode(self, code):
 		for line in code:
 			arrow = self.indexArrow(line)
-			start = line[:arrow]
+			start = line[:arrow + 1]
 			end = line[arrow + 1:]
 			op = self.travelStart(start)
 			self.travelEnd(end, op)
@@ -88,16 +91,14 @@ class Graph:
 
 	def travelStart(self, line):
 		opMax = ""
-		opPrio = "!+|^"
+		opPrio = ["!", "+", "|", "^", "=>"]
 		if len(line) == 1:
 			opMax = self.getChar(line, 0)
 		for op in opPrio:
 			for i, char in enumerate(line):
 				if isinstance(char, str) and op in char:
 					line = self.creaNode(line, i)
-					if opMax == "" and op != "!":
-						opMax = char
-
+					opMax = char
 		return opMax
 
 	def creaNode(self, line, i):
@@ -154,7 +155,7 @@ class Graph:
 
 	def addLink(self, node1, node2):
 		if self.exist(node1) and self.exist(node2):
-			print("link", node1, node2)
+			# print("link", node1, node2)
 			index1 = self.getIndex(node1)
 			index2 = self.getIndex(node2)
 			self.matrice[index2][index1] = 1
@@ -172,4 +173,65 @@ class Graph:
 	def init(self, init):
 		for char in init:
 			self.setValue(char, 1)
+
+	def isLoop(m):
+		j = 0
+		while j < len(m):
+			if Graph.loopLine(m, j):
+				return True
+			j += 1
+		return False
+
+	def loopLine(m, j):
+		i = 0
+		while i < len(m):
+			if m[j][i] == -1:
+				return True
+			if m[j][i] == 1:
+				m[j][i] = -1
+				if Graph.loopLine(m, i):
+					return True
+				else:
+					m[j][i] = 1
+			i += 1
+		return False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

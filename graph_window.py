@@ -41,23 +41,6 @@ class GraphShow:
 		for node in nodes:
 			self.create_node(node)
 
-
-# class Matrice:
-
-# 	def __init__(self, size, init = -1):
-# 		self.init = init
-# 		self.size = size
-# 		self._matrice = [[init] * size] * size
-
-# 	def add(self, x):
-# 		self.size += 1
-# 		for i, line in enumerate(self.matrice):
-# 			self.matrice[i] = line + [self.init]
-# 		self.matrice.append([self.init] * self.size)
-
-# 	def decalLeft(self):
-
-
 class NodePosition:
 
 	def __init__(self, graph, width, height):
