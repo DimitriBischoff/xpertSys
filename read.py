@@ -190,7 +190,7 @@ def formatRule(rule, p):
 def cleanInput(input):
     queries = None
     facts = None
-    lst = list(filter(None, map(lambda x: x.split('#', 1)[0].strip(), input.splitlines())))
+    lst = list(filter(None, map(lambda x: x.split('#', 1)[0].strip(), input.replace(" ", "").splitlines())))
     rules = list(lst)
     for j in range(len(lst)):
         if lst[j][0] == '?':
@@ -214,9 +214,9 @@ def read_input(name):
 
 
 if __name__ == '__main__':
-    for arg in sys.argv[1:]:
-        input = read_input(arg)
-        rules, facts, queries = cleanInput(input)
-        rules = [ formatRule(list(rule), 0) for rule in rules ]
-        print(rules)
+    # for arg in sys.argv[1:]:
+    input = read_input("test")
+    rules, facts, queries = cleanInput(input)
+    rules = [ formatRule(list(rule), 0) for rule in rules ]
+    print(rules, facts, queries)
 
