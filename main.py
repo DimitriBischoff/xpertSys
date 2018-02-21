@@ -1,4 +1,4 @@
-#!/usr/bin/python3.5
+#!/usr/bin/python3.4
 # -*- coding: utf-8 -*-
 
 import sys
@@ -16,18 +16,18 @@ def main(path):
 		print("error file", path)
 		return
 	graph = Graph(rules)
-	# print(graph, graph.loop)
 	if not graph.loop:
 		graph.init(facts)
 		window = GraphShow(graph.getGraph())
 		results = browse(graph.matrice, graph.liste, graph.invDictionnaire)
-		print(results)
 		for i, x in enumerate(queries):
 			for y, z in enumerate(graph.invDictionnaire):
 				if z == x:
 					endstr += "{}result of {} is {}".format("" if not i else "\n", x, results[y])
-		print(endstr, end="")
+		print(endstr)
 		window.loop()
+	else:
+		print("error graph loop")
 
 if __name__ == '__main__':
 	if len(sys.argv) > 1:
