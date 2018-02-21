@@ -35,22 +35,3 @@ def main():
 
 main()
 
-# m = [[0, 0, 0, 1], [1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0]]
-
-# def isLoop(m, l=0):
-# 	h = w = len(m)
-# 	i, j = 0, l
-# 	while j < h:
-# 		while i < w:
-# 			print(j, i, m[j][i])
-# 			if m[j][i] == -1:
-# 				return True
-# 			if m[j][i] == 1:
-# 				m[j][i] = -1
-# 				if isLoop(m, i):
-# 					return True
-# 			i += 1
-# 		j += 1
-# 	return False
-
-# print(isLoop(m))
