@@ -11,6 +11,7 @@ def sym_and(x, matrix, results, indexes, chkd):
             res = results[links[z]]
     return res
 
+
 def sym_xor(x, matrix, results, indexes, chkd):
     links = [i for i, y in enumerate(matrix[x]) if y == 1]
     res = None
@@ -23,6 +24,7 @@ def sym_xor(x, matrix, results, indexes, chkd):
         else:
             res = results[links[z]]
     return res
+
 
 def sym_not(x, matrix, results, indexes, chkd):
     links = [i for i, y in enumerate(matrix[x]) if y == 1]
@@ -37,6 +39,7 @@ def sym_not(x, matrix, results, indexes, chkd):
             res = results[links[z]]
     return 0 if res == 1 else 1
 
+
 def sym_or(x, matrix, results, indexes, chkd):
     links = [i for i, y in enumerate(matrix[x]) if y == 1]
     res = None
@@ -49,6 +52,7 @@ def sym_or(x, matrix, results, indexes, chkd):
         else:
             res = results[links[z]]
     return res
+
 
 def run_through(x, matrix, results, indexes, chkd):
     if x not in chkd:
@@ -66,8 +70,9 @@ def run_through(x, matrix, results, indexes, chkd):
     else:
         return results[x]
 
+
 def browse(matrix, inits, indexes):
-    print(inits)
+    # print(inits)
     results = inits
     chkd = []
     for x in range(len(matrix[0])):

@@ -134,33 +134,6 @@ class NodePosition:
 					max = tmp
 		return ret + max
 
-	# def posNodesI(self, matriceLink):
-	# 	size = len(matriceLink)
-	# 	liste = []
-	# 	# print(matricePos)
-	# 	for i in range(size):
-	# 		linkBefore = []
-	# 		linkAfter = []
-	# 		for j in range(size):
-	# 			if matriceLink[j][i] == 1:
-	# 				linkAfter.append(j)
-	# 			if matriceLink[i][j] == 1:
-	# 				linkBefore.append(j)
-	# 		liste.append({"before": linkBefore, "after": linkAfter})
-	# 		print(self.graph["idict"][i], "before", linkBefore, "after", linkAfter)
-	# 	print(liste)
-	# 	print("travel after", self.travel(liste, 0, "after"))
-	# 	print("travel before", self.travel(liste, 5, "before"))
-	# 	return 
-
-	# def travel(self, list, i, name):
-	# 	# print("travel", i)
-	# 	ret = [i]
-	# 	for node in list[i][name]:
-	# 		ret.append(self.travel(list, node, name))
-	# 	return ret
-
-
 	def getNodes(self):
 		return self.nodes
 
