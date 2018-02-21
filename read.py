@@ -88,7 +88,7 @@ def cleanInput(input):
         for rule in rules:
             if "=>" not in rule:
                 error('No implication sign in rule "{0}"'.format(" ".join(rule)))
-        return rules, facts, queries
+    return rules, facts, queries
 
 def read_input(name):
     with open(name, 'r') as fo:
