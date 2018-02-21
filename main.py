@@ -21,14 +21,14 @@ def main(path, showGraph = False):
             graph.init(facts)
             if showGraph:
                 window = GraphShow(graph.getGraph())
-            window = GraphShow(graph.getGraph())
             results = browse(graph.matrice, graph.liste, graph.invDictionnaire)
-            for i, x in enumerate(queries):     
-                for y, z in enumerate(graph.invDictionnaire):
-                    if z == x:
-                        str = "result of {} is {}".format(x, bool(results[y]))
-                print(str) if str else print("result of {} is {}".format(x, False))
-                str = ""
+            if queries:
+                for i, x in enumerate(queries):     
+                    for y, z in enumerate(graph.invDictionnaire):
+                        if z == x:
+                            str = "result of {} is {}".format(x, bool(results[y]))
+                    print(str) if str else print("result of {} is {}".format(x, False))
+                    str = ""
             if window is not None:
                 window.loop()
 	else:
