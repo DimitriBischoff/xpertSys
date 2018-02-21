@@ -6,7 +6,7 @@
 #    By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/12 15:54:54 by rmicolon          #+#    #+#              #
-#    Updated: 2018/02/21 15:37:39 by rmicolon         ###   ########.fr        #
+#    Updated: 2018/02/21 16:52:22 by rmicolon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,6 +71,9 @@ def cleanInput(input):
                 error('Multiple facts statement')
             facts = lst[j][1:]
             rules.remove(lst[j])
+    for rule in rules:
+        if "=>" not in rule:
+            error('No implication sign in rule "{0}"'.format(" ".join(rule)))
     return rules, facts, queries
 
 
@@ -79,14 +82,10 @@ def read_input(name):
         input = fo.read()
     return(input)
 
+
 def read_run(path):
     input = read_input(path)
     rules, facts, queries = cleanInput(input)
     rules = [ formatRule(list(rule), rule, 0, 0) for rule in rules ]
     return rules, facts, queries
-
-if __name__ == '__main__':
-    # for arg in sys.argv[1:]:
-    rules, facts, queries = read_run("test")
-    print(rules, facts, queries)
 

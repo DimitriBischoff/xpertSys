@@ -171,8 +171,9 @@ class Graph:
 		}
 
 	def init(self, init):
-		for char in init:
-			self.setValue(char, 1)
+                if init is not None:
+                    for char in init:
+                        self.setValue(char, 1)
 
 	def isLoop(m):
 		j = 0
