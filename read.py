@@ -11,6 +11,7 @@
 # **************************************************************************** #
 
 import sys
+import re
 
 #TODO:
 # errors : 
@@ -52,24 +53,37 @@ def formatRule(rule, p):
             del rule[0]
     return lst 
 
+def errorCode(code):
+    errors = []
+    regex = r"([A-Z]{2,})|([+^|]{2,})|([+^|]=>)|([^A-Z+|^=>()!\n])|(!!)|((>|^)[+|^])|(={2,})|(>{2,})|(![+|^])|(=>.+[|^])"
+    for i, l in enumerate(code):
+        e = re.search(regex, l)
+        if e:
+            errors.append("%-5i: wrong symbole { %s } in rule %s" % (i, e.group(0), e.string))
+    return None if not errors else errors
 
 def cleanInput(input):
     queries = None
     facts = None
+
     lst = list(filter(None, map(lambda x: x.split('#', 1)[0].strip(), input.replace(" ", "").splitlines())))
-    rules = list(lst)
-    for j in range(len(lst)):
-        if lst[j][0] == '?':
-            if queries is not None:
-                error('Multiple queries statement')
-            queries = lst[j][1:]
-            rules.remove(lst[j])
-        elif lst[j][0] == '=':
-            if facts is not None:
-                error('Multiple facts statement')
-            facts = lst[j][1:]
-            rules.remove(lst[j])
-    return rules, facts, queries
+    error = errorCode(lst[:-2])
+    if error:
+        raise Exception("\n".join(str(i) for i in error))
+    else:
+        rules = list(lst)
+        for j in range(len(lst)):
+            if lst[j][0] == '?':
+                if queries is not None:
+                    error('Multiple queries statement')
+                queries = lst[j][1:]
+                rules.remove(lst[j])
+            elif lst[j][0] == '=':
+                if facts is not None:
+                    error('Multiple facts statement')
+                facts = lst[j][1:]
+                rules.remove(lst[j])
+        return rules, facts, queries
 
 
 def read_input(name):

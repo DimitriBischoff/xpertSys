@@ -13,8 +13,8 @@ def main(path, showGraph = False):
 	window = None
 	try:
 		rules, facts, queries = read_run(path)
-	except IOError:
-		print("error file", path)
+	except Exception as e:
+		print(e)
 		return
 	graph = Graph(rules)
 	if not graph.loop:
@@ -39,3 +39,4 @@ if __name__ == '__main__':
 				main(path, "-g" in sys.argv)
 	else:
 		print("error arguments")
+
