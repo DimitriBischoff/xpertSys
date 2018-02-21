@@ -6,7 +6,7 @@
 #    By: rmicolon <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/12 15:54:54 by rmicolon          #+#    #+#              #
-#    Updated: 2018/02/08 22:57:46 by rmicolon         ###   ########.fr        #
+#    Updated: 2018/02/21 16:52:22 by rmicolon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ import re
 
 #TODO:
 # errors : 
+#  - request for non existing letter
 #  - parenthesis correctness
 #  - plusieurs signes '='
 #  - check espaces
@@ -23,31 +24,32 @@ import re
 #  - check symbol on right side 
 
 
-OK = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ' + '!+-|^' + '=()'
+LOK = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ' + '!+|^' + '=()'
+ROK = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ' + '!+' 
 
 def error(str):
     print('Error: {}'.format(str))
     exit(1)
 
 
-def formatRule(rule, p):
+def formatRule(rule, errule, p, eq):
     lst = []
-    errule = list(rule)
     while rule:
-        if rule[0] not in OK:
-            error('Wrong symbol {0} in rule "{1}"'.format(rule[0], errule))
+        if (eq == 0 and rule[0] not in LOK) or (eq == 1 and rule[0] not in ROK):
+            error('Wrong symbol {0} in rule "{1}"'.format(rule[0], " ".join(errule)))
         elif rule[0] == '=':
             if rule[1] == '>':
-                lst.append("".join(rule[0:2]))
+                lst.append("".join(rule[0:2])) if p == 0 else error('Parenthesis error in rule "{0}"'.format(" ".join(errule)))
+                eq = 1
                 del rule[0:2]
             else:
                 error('Wrong symbol {0} in rule "{1}"'.format(rule[0:1], errule))
         elif rule[0] == '(':
             del rule[0]
-            lst.append(formatRule(rule, p+1))
+            lst.append(formatRule(rule, errule, p+1, eq))
         elif rule[0] == ')':
             del rule[0]
-            return (lst) if p > 0 else error('Parenthesis error in rule "{0}"'.format(errule))
+            return (lst) if p > 0 else error('Parenthesis error in rule "{0}"'.format(" ".join(errule)))
         else:
             lst.append(rule[0])
             del rule[0]
@@ -83,22 +85,20 @@ def cleanInput(input):
                     error('Multiple facts statement')
                 facts = lst[j][1:]
                 rules.remove(lst[j])
+        for rule in rules:
+            if "=>" not in rule:
+                error('No implication sign in rule "{0}"'.format(" ".join(rule)))
         return rules, facts, queries
-
 
 def read_input(name):
     with open(name, 'r') as fo:
         input = fo.read()
     return(input)
 
+
 def read_run(path):
     input = read_input(path)
     rules, facts, queries = cleanInput(input)
-    rules = [ formatRule(list(rule), 0) for rule in rules ]
+    rules = [ formatRule(list(rule), rule, 0, 0) for rule in rules ]
     return rules, facts, queries
-
-if __name__ == '__main__':
-    # for arg in sys.argv[1:]:
-    rules, facts, queries = read_run("test")
-    print(rules, facts, queries)
 
