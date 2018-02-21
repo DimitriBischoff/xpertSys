@@ -1,0 +1,23 @@
+# Ok base
+(A | B) + C => D + E
+
+# no implacation sign
+#A + C | D
+
+# Parenthesis errors
+#A | B + (C => D) + E
+#(A | B)) + C => D + E
+#(A | B + C => D + E
+#A | B + C => (D + E
+
+# Right side wrong signs
+#(A | B) | C => D | E 
+#(A | B) ^ C => D ^ E 
+#(A | B) + C => D => E 
+#(A | B) + | C => D + E 
+
+# double or no queries/facts
+?T
+#?A
+=AC
+#=CD
